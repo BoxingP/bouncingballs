@@ -4,19 +4,17 @@ import ball.Ball;
 
 import java.awt.*;
 
-public abstract class BallImpl implements Ball {
+public class BallImpl implements Ball {
     protected int x;
     protected int y;
     protected int radius;
+    protected Behaviour[] behaviours;
 
-    protected BallImpl(int x, int y, int radius) {
+    protected BallImpl(int x, int y, int radius, Behaviour... behaviours) {
         this.x = x;
         this.y = y;
         this.radius = radius;
-    }
-
-    protected BallImpl(int x, int y) {
-        this(x, y, DEFAULT_RADIUS);
+        this.behaviours = behaviours;
     }
 
     // DO NOT CHANGE
@@ -33,5 +31,19 @@ public abstract class BallImpl implements Ball {
 
     // DO NOT CHANGE
     @Override
-    public abstract void update();
+    public void update(){
+        for(Behaviour behaviour:behaviours){
+            behaviour.apply(this);
+        }
+    };
+
+    @Override
+    public void setY(int y) {
+        this.y= y;
+    }
+
+    @Override
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
 }

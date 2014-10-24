@@ -2,30 +2,35 @@ package ball.model;
 
 import ball.Ball;
 
-public class ElasticBall extends BallImpl {
+public class Elastic implements Behaviour {
     public static final int GROWTH_RATE = 2;
 
     static final int GROW = 1;
     static final int SHRINK = -1;
 
     private int growthDirection;
+    private Ball ball;
+    private int radius;
 
-    ElasticBall(int x, int y, int radius, int growthDirection) {
-        super(x, y, radius);
+    Elastic(int growthDirection) {
         this.growthDirection = growthDirection;
     }
 
     @Override
-    public void update() {
+    public void apply(Ball ball) {
+        this.ball = ball;
+        this.radius = ball.radius();
         growthDirection = reverseGrowthDirectionIfNecessary();
-        radius = next();
+        next();
     }
 
-    /***********************************************************************************
-     *
+    /**
+     * ********************************************************************************
+     * <p/>
      * Do not change Elastic ALGORITHM below.
-     *
-     ***********************************************************************************/
+     * <p/>
+     * *********************************************************************************
+     */
 
     private int reverseGrowthDirectionIfNecessary() {
         if (growingTooBig() || shrinkingTooSmall()) {
@@ -47,8 +52,8 @@ public class ElasticBall extends BallImpl {
         return growing() ? SHRINK : GROW;
     }
 
-    private int next() {
-        return radius + (GROWTH_RATE * growthDirection);
+    private void next() {
+        ball.setRadius(radius + (GROWTH_RATE * growthDirection));
     }
 
     private boolean shrinking() {

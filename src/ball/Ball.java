@@ -9,4 +9,7 @@ public interface Ball {
     int radius();
     Point center();
     void update();
+
+    void setY(int y);
+    void setRadius(int radius);
 }
